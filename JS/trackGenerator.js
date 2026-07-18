@@ -1,5 +1,5 @@
 // Import
-import { MasterTrack } from '../JS/masterTrack.js';
+import { MasterTrack } from './masterTrack.js';
 import { AudioTrack } from './audioTrack.js';
 
 export class TrackGenerator {
