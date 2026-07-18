@@ -1,6 +1,6 @@
 // ImportImport
 import { TrackLoader } from './trackLoader.js';
-import { TrackGenerator } from './TrackGenerator.js';
+import { TrackGenerator } from './trackGenerator.js';
 
 // Audio context
 const audioContext = new AudioContext();
