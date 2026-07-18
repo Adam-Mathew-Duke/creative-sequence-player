@@ -15,6 +15,11 @@ body{
     color: #6366f1;
 }
 
+.TrackContainer{
+    width: 100%;       /* Forces it to take up the full width of the interface */
+    box-sizing: border-box; /* Ensures padding/borders don't accidentally push it off-screen */
+}
+
 /* Track playback audio files */
 .select-box{
     background-color: black;
