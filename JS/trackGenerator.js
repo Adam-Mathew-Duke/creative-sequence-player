@@ -1,7 +1,7 @@
 // Import
 import { MasterTrack } from './masterTrack.js'; 
 import { AudioTrack } from './audioTrack.js';
-
+ 
 export class TrackGenerator {
     constructor() {
         this.container = document.querySelector('.TrackContainer');
