@@ -98,18 +98,6 @@ body{
     border-radius: 10%;
 }
 
-/* Configer the slider tracks */
-input[type="range"].SliderVertical {
-    -webkit-appearance: none;
-    appearance: none;
-    writing-mode: vertical-lr; 
-    direction: rtl; 
-    width: 24px; 
-    height: 175px;
-    background: transparent;
-    cursor: pointer;
-}
-
 /* Configure slider thumb for Firefox */
 .SliderVertical::-moz-range-thumb {
     height: 24px;
@@ -165,6 +153,25 @@ input[type="range"].SliderVertical::-webkit-slider-thumb {
 
 /* Configure slider thumb - Hover event */
 input[type="range"].SliderVertical::-webkit-slider-thumb:hover {
+    background: #6366f1;
+    border: 4px solid white;
+    transform: scale(1.5);
+}
+
+/* Configure slider thumb for Firefox */
+input[type="range"].SliderVertical::-moz-range-thumb {
+    height: 20px;      /* Matched to WebKit */
+    width: 40px;       /* Matched to WebKit */
+    border-radius: 0%; /* Rectangular shape instead of 50% circle! */
+    background: transparent;
+    border: 2px solid #6366f1; /* Matched to WebKit */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s ease, background-color 0.1s ease;
+    cursor: pointer;
+}
+
+/* Configure slider thumb for Firefox - Hover event */
+input[type="range"].SliderVertical::-moz-range-thumb:hover {
     background: #6366f1;
     border: 4px solid white;
     transform: scale(1.5);
