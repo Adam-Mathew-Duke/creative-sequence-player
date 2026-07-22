@@ -5,7 +5,7 @@ import { TrackGenerator } from './trackGenerator.js';
 // Audio context
 const audioContext = new AudioContext();
 const generator = new TrackGenerator();
-const totalTracks = 10;
+let totalTracks = 4; // default number of audio tracks
 
 // Resume audio context
 async function resume_audio_context() {
@@ -20,6 +20,12 @@ let loader;
 async function handleAppStart() {
     // 1. Await the audio context resumption before instantiating the loader
     await resume_audio_context();
+
+    // Grab the user's selected track count from your dropdown
+    const trackSelect = document.getElementById("trackCountSelect");
+    if (trackSelect) {
+        totalTracks = parseInt(trackSelect.value, 10);
+    }
     
     // Pass the generator instance to the loader so it can wire up listeners later
     loader = new TrackLoader(audioContext, generator); 
@@ -32,11 +38,12 @@ async function handleAppStart() {
 }
 
 // Setup the start power button
+const startContainer = document.getElementById("start-container");
 const startButton = document.getElementById("startButton");
 const mixerContainer = document.getElementById("MixerContainer");
 startButton?.addEventListener("click", () => {
+    startContainer?.classList.add("hidden");
     mixerContainer?.classList.remove("hidden");
-    startButton?.classList.add("hidden");
     mixerContainer?.focus();
     handleAppStart(); 
 });
@@ -88,7 +95,7 @@ document.getElementById("MasterPlayButton").addEventListener("click", async (e) 
     
     let activePlayingFound = false;
 
-    // Loop through all 10 tracks to toggle playback and check states
+    // Loop through all tracks to toggle playback and check states
     for (let i = 1; i <= totalTracks; i++) {
         const track = loader[`track${i}`];
         if (track) {
@@ -97,8 +104,8 @@ document.getElementById("MasterPlayButton").addEventListener("click", async (e) 
 
             track.toggleTrack(selectedFile, "loop", fadeTime, fadeoutTime);
 
-            // Check if this specific track is playing music right now
-            if (track.activeSource || track.timerId) {
+            // Only consider it "active" if it has a source AND is NOT in the middle of fading out
+            if (track.activeSource && !track.isFadingOut) {
                 activePlayingFound = true;
             }
         }

@@ -18,8 +18,30 @@
         <!-- Header -->
         <h1>Creative Sequence Player (Pre-Release)</h1>
 
-        <!-- Power Button -->
-        <button id="startButton" class="mixerButton">POWER</button>    
+        <div id="start-container" class="flex-header">
+
+            <!-- Number of audio tracks -->
+            <div class="flex-header">
+                    <label for="trackCountSelect">Number of audio tracks:</label>
+                    <select name="trackCount" id="trackCountSelect">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4" selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <!-- Power Button -->
+                <div class="flex-header">
+                    <button id="startButton" class="mixerButton">POWER</button>    
+                </div>
+        </div>
 
         <!-- Mixer Container -->
         <div id="MixerContainer" class="MixerContainer hidden">

@@ -190,7 +190,7 @@ input[type="range"].SliderVertical::-webkit-slider-thumb:hover {
 }
 
 /* Mixer track settings (master and track level) */
-.flex-container{
+.flex-container,#start-container{
     border-top: 6px solid blue;
     display: flex;
     flex-grow: 1;

@@ -10,6 +10,7 @@ export class AudioTrack {
         this.currentIntensity = 1.0;
         this.activeSource = null;
         this.timerId = null;
+        this.isFadingOut = false; // State flag for active fade-outs
 
         // Node Architecture Setup
         this.fadeNode = new GainNode(this.ctx, { gain: 1.0 });
@@ -41,18 +42,48 @@ export class AudioTrack {
         };
     }
 
-    // Play or stop track audio 
     toggleTrack(key, mode, fadeInTime, fadeOutTime) {
-        if (this.activeSource || this.timerId) {
+        // If it's playing normally (and NOT in the middle of fading out), start the fade-out
+        if (this.activeSource && !this.isFadingOut) {
             this.stopTrack(fadeOutTime);
         } else {
+            // If it's stopped OR currently fading out: cancel the fade and start fresh!
+            if (this.isFadingOut) {
+                this.cancelAndStopImmediately();
+            }
             this.playTrack(key, mode, fadeInTime);
         }
     }
 
+    cancelAndStopImmediately() {
+        // 1. Clear any pending setTimeout triggers
+        if (this.timerId) {
+            clearTimeout(this.timerId);
+            this.timerId = null;
+        }
+
+        // 2. Cancel scheduled Web Audio gain ramps on fadeNode
+        if (this.fadeNode) {
+            this.fadeNode.gain.cancelScheduledValues(this.ctx.currentTime);
+        }
+
+        // 3. Stop and cleanup the active audio source
+        if (this.activeSource) {
+            try {
+                this.activeSource.stop();
+                this.activeSource.disconnect();
+            } catch (e) {
+                // Source might have already stopped naturally
+            }
+            this.activeSource = null;
+        }
+
+        this.isFadingOut = false;
+    }
+
     // Play the track audio track
     playTrack(key, mode, fadeInTime) {
-        this.stopTrack(0); // Clear any outstanding sources instantly
+        this.cancelAndStopImmediately(); // Clear any outstanding sources instantly
         const item = this.options[key];
         if (!item || !item.buffer) return;
 
@@ -79,21 +110,21 @@ export class AudioTrack {
         }
     }
 
-    // Track stop audio
     stopTrack(fadeOutTime) {
-        if (this.activeSource) {
-            const now = this.ctx.currentTime;
-            const fadeOut = fadeOutTime > 0 ? fadeOutTime : 0.05;
-            
-            this.fadeNode.gain.cancelScheduledValues(now);
-            this.fadeNode.gain.setValueAtTime(this.fadeNode.gain.value, now);
-            this.fadeNode.gain.linearRampToValueAtTime(0, now + fadeOut);
-            
-            this.activeSource.stop(now + fadeOut);
-            this.activeSource = null;
-        }
+        this.isFadingOut = true;
+        
+        // Ramp volume down to 0 on fadeNode
+        const now = this.ctx.currentTime;
+        this.fadeNode.gain.cancelScheduledValues(now);
+        this.fadeNode.gain.setValueAtTime(this.fadeNode.gain.value, now);
+        this.fadeNode.gain.linearRampToValueAtTime(0, now + fadeOutTime);
+
+        // Schedule actual source cleanup when fade completes
+        this.timerId = setTimeout(() => {
+            this.cancelAndStopImmediately(); // Cleans up source & resets flags
+        }, fadeOutTime * 1000);
     }
-    
+
     // Track set audio volume (Expects 0-100 raw slider val)
     setVolume(rawValue) {
         const now = this.ctx.currentTime;
