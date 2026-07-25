@@ -2,8 +2,14 @@
 import { TrackLoader } from './trackLoader.js';
 import { TrackGenerator } from './trackGenerator.js';
 
-// Audio context
-const audioContext = new AudioContext();
+// Cross-browser context constructor fallback
+const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+// Audio context with latencyHint for smoother playback
+const audioContext = new AudioContextClass({
+  latencyHint: 'interactive'
+});
+
 const generator = new TrackGenerator();
 let totalTracks = 4; // default number of audio tracks
 
@@ -44,6 +50,13 @@ const mixerContainer = document.getElementById("MixerContainer");
 startButton?.addEventListener("click", () => {
     startContainer?.classList.add("hidden");
     mixerContainer?.classList.remove("hidden");
+
+    // Reveal the Reload button
+    const reloadBtn = document.getElementById("ReLoadButton");
+    if (reloadBtn) {
+        reloadBtn.classList.remove("hidden");
+    }
+
     mixerContainer?.focus();
     handleAppStart(); 
 });
@@ -123,14 +136,13 @@ document.getElementById("MasterPlayButton").addEventListener("click", async (e) 
 // Master track random mix button
 document.getElementById("MasterRandomButton").addEventListener("click", () => {
     if (!loader) {
-        console.warn("Mixer engine not started yet. Load files first!");
+        //console.warn("Mixer engine not started yet. Load files first!");
         return;
     }
     
     // Master track randomize the low pass slider
     const LowPassData = loader.mastertrack?.randomizeMasterLowPass();
     if (LowPassData) {
-        document.getElementById("MasterVolumeSlider").value = LowPassData.randomLowPassVal; // Fixed target parameter assignment
         document.getElementById("MasterLowpassSlider").value = LowPassData.randomLowPassVal;
         const displayHz = Math.round(LowPassData.actualHz); 
         document.getElementById("MasterLowpassSliderLabel").textContent = `${displayHz} Hz`; 
@@ -154,7 +166,7 @@ document.getElementById("MasterRandomButton").addEventListener("click", () => {
 // Master track reset mix button
 document.getElementById("MasterResetButton").addEventListener("click", () => {
     if (!loader) {
-        console.warn("Mixer engine not started yet. Load files first!");
+        //console.warn("Mixer engine not started yet. Load files first!");
         return;
     }
 
@@ -180,3 +192,54 @@ document.getElementById("MasterResetButton").addEventListener("click", () => {
         document.getElementById("MasterLowpassSliderLabel").textContent = `${displayHz} Hz`; 
     }
 });
+
+// Full audio mixer refresh
+// If you are having issues with crackle on Safari - try a refresh to free
+// up Safari resources and close all other browser tabs
+document.getElementById("ReLoadButton").addEventListener("click", () => {
+  // Cleanly close the audio context before reloading to free up hardware channels
+  if (audioContext && audioContext.state !== 'closed') {
+    audioContext.close().then(() => {
+      window.location.reload();
+    });
+  } else {
+    window.location.reload();
+  }
+});
+
+// Resume AudioContext if Safari suspended it during tab mute/switch
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && audioContext && audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+});
+
+// Sync slider labels to match HTML input default values on initial load
+function syncMasterLabels() {
+    const masterVol = document.getElementById("MasterVolumeSlider");
+    const masterVolLabel = document.getElementById("MasterVolumeLabel");
+    if (masterVol && masterVolLabel) {
+        masterVolLabel.textContent = `${masterVol.value}%`;
+    }
+
+    const fade = document.getElementById("fade-slider");
+    const fadeLbl = document.getElementById("fade-label");
+    if (fade && fadeLbl) {
+        fadeLbl.textContent = `${fade.value} SEC`;
+    }
+
+    const fadeOut = document.getElementById("fadeout-slider");
+    const fadeOutLbl = document.getElementById("fadeout-label");
+    if (fadeOut && fadeOutLbl) {
+        fadeOutLbl.textContent = `${fadeOut.value} SEC`;
+    }
+
+    const limiter = document.getElementById("masterLimiterNodeSlider");
+    const limiterLbl = document.getElementById("masterLimiterNodeSliderLabel");
+    if (limiter && limiterLbl) {
+        limiterLbl.textContent = `${parseFloat(limiter.value).toFixed(1)} dB`;
+    }
+}
+
+// Run immediately on page script load
+syncMasterLabels();

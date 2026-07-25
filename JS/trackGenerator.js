@@ -35,7 +35,6 @@ export class TrackGenerator {
             <div class="flex-header">
                 <label class="mixer-labels">TRACK ${trackNumber}</label>
             </div>
-            <!-- Dynamic border color injected right here via template literals! -->
             <div class="flex-container" style="border-top: 6px solid ${assignedColor};">
                 <div class="flex-item">      
                     <label class="mixer-labels">PLAYBACK</label>
@@ -48,27 +47,27 @@ export class TrackGenerator {
                 </div>
                 <div class="flex-item">
                     <label class="mixer-labels">PREAMP</label>
-                    <input type="range" id="trim-slider-${trackNumber}" min="0" max="2" step="0.01" value="1" class="SliderVertical">
+                    <input type="range" id="trim-slider-${trackNumber}" min="0" max="2" step="0.01" value="1" class="SliderVertical" onpointerdown="this.focus()">
                     <label id="trim-label-${trackNumber}">0.0 dB</label>
                 </div>
                 <div class="flex-item">
                     <label class="mixer-labels">HIGH PASS</label>
-                    <input type="range" id="highpass-slider-${trackNumber}" min="0" max="100" step="1" value="0" class="SliderVertical">
+                    <input type="range" id="highpass-slider-${trackNumber}" min="0" max="100" step="1" value="0" class="SliderVertical" onpointerdown="this.focus()">
                     <label id="highpass-slider-label-${trackNumber}">20 Hz</label>
                 </div>
                 <div class="flex-item">
                     <label class="mixer-labels">LOW PASS</label>
-                    <input type="range" id="lowpass-slider-${trackNumber}" min="0" max="100" step="1" value="100" class="SliderVertical">
+                    <input type="range" id="lowpass-slider-${trackNumber}" min="0" max="100" step="1" value="100" class="SliderVertical" onpointerdown="this.focus()">
                     <label id="lowpass-slider-label-${trackNumber}">Off</label>
                 </div>
                 <div class="flex-item">
                     <label class="mixer-labels">PAN</label>
-                    <input type="range" min="-1" max="1" value="0" step="0.01" class="SliderVertical" id="pan-slider-${trackNumber}">
+                    <input type="range" min="-1" max="1" value="0" step="0.01" class="SliderVertical" id="pan-slider-${trackNumber}" onpointerdown="this.focus()">
                     <label id="pan-label-${trackNumber}">0.00</label>
                 </div>
                 <div class="flex-item">
                     <label class="mixer-labels">VOLUME</label>
-                    <input type="range" min="0" max="100" value="100" step="1" class="SliderVertical" id="volume-slider-${trackNumber}">
+                    <input type="range" min="0" max="100" value="100" step="1" class="SliderVertical" id="volume-slider-${trackNumber}" onpointerdown="this.focus()">
                     <label id="volume-label-${trackNumber}">100%</label>
                 </div>
             </div>

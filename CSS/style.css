@@ -226,7 +226,7 @@ input[type="range"].SliderVertical::-moz-range-thumb:hover {
 
 /* Load files box */
 .loadFiles{
-  -webkit-appearance: none;
+    -webkit-appearance: none;
     appearance: none;
     height: 40px;
     width: 400px;
@@ -239,7 +239,8 @@ input[type="range"].SliderVertical::-moz-range-thumb:hover {
     transition: all 0.15s ease;
 }
 
-/* Configure file selector button */
+/* Configure file selector button (and WebKit target for Safari) */
+.loadFiles::-webkit-file-upload-button,
 .loadFiles::file-selector-button {
     -webkit-appearance: none;
     appearance: none;
@@ -255,6 +256,7 @@ input[type="range"].SliderVertical::-moz-range-thumb:hover {
 }
 
 /* Configure file selector button - hover state */
+.loadFiles::-webkit-file-upload-button:hover,
 .loadFiles::file-selector-button:hover {
     background: #6366f1;
     color: #ffffff;

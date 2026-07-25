@@ -137,14 +137,21 @@ export class AudioTrack {
         }
     }
 
-    // Track set audio pan
-    setPan(panValue) {
-        const now = this.ctx.currentTime;
-        this.userSettings.PAN = panValue;
+// Track set audio pan
+setPan(panValue) {
+    const now = this.ctx.currentTime;
+    this.userSettings.PAN = panValue;
+    
+    if (this.pannerNode && this.pannerNode.pan) {
+        // Cancel any pending changes
         this.pannerNode.pan.cancelScheduledValues(now);
-        this.pannerNode.pan.setTargetAtTime(panValue, now, 0.02); 
-        return panValue; 
+        
+        // Direct value assignment works reliably across Safari/WebKit
+        this.pannerNode.pan.value = panValue;
     }
+    
+    return panValue; 
+}
 
     // Track set audio low pass (Expects 0-100 slider value)
     setLowPass(val) {

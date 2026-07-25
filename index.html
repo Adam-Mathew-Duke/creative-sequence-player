@@ -11,13 +11,13 @@
         <script type="module" src="./JS/main.js" defer></script>
 
         <!-- Title -->
-        <title>Creative Sequence Player (Pre-Release)</title> 
+        <title>Creative Sequence Player</title> 
     </head>
     
     <body>
 
         <!-- Header -->
-        <h1>Creative Sequence Player (Pre-Release)</h1>
+        <h1>Creative Sequence Player (Pre-Release - Safari hotfix)</h1>
 
         <div id="start-container" class="flex-header">
 
@@ -72,31 +72,31 @@
                 
                 <div class="flex-item">
                     <label class="mixer-labels">FADE IN</label>
-                    <input type="range" min="0" max="10" value="0" step="5" class="SliderVertical" id="fade-slider">
+                    <input type="range" min="0" max="10" value="0" step="5" class="SliderVertical" id="fade-slider" onpointerdown="this.focus()">
                     <label id="fade-label">0 SEC</label>
                 </div>
                 
                 <div class="flex-item">
                     <label class="mixer-labels">FADE OUT</label>
-                    <input type="range" min="0" max="10" value="0" step="5" class="SliderVertical" id="fadeout-slider">
+                    <input type="range" min="0" max="10" value="0" step="5" class="SliderVertical" id="fadeout-slider" onpointerdown="this.focus()">
                     <label id="fadeout-label">0 SEC</label>
                 </div>
                 
                 <div class="flex-item">
                     <label class="mixer-labels">LOW PASS</label>
-                    <input type="range" id="MasterLowpassSlider" min="0" max="100" step="0.5" value="100" class="SliderVertical">
+                    <input type="range" id="MasterLowpassSlider" min="0" max="100" step="0.5" value="100" class="SliderVertical" onpointerdown="this.focus()">
                     <label id="MasterLowpassSliderLabel">20000 Hz</label>
                 </div>
                 
                 <div class="flex-item"> 
                     <label class="mixer-labels">LIMITER</label>
-                    <input type="range" min="-24" max="-0.5" value="-0.5" step="0.1" class="SliderVertical" id="masterLimiterNodeSlider">
+                    <input type="range" min="-24" max="-0.5" value="-0.5" step="0.1" class="SliderVertical" id="masterLimiterNodeSlider" onpointerdown="this.focus()">
                     <label id="masterLimiterNodeSliderLabel">-0.5 dB</label>
                 </div>
                 
                 <div class="flex-item"> 
                     <label class="mixer-labels">VOLUME</label>
-                    <input type="range" min="0" max="100" value="100" step="1" class="SliderVertical" id="MasterVolumeSlider">
+                    <input type="range" min="0" max="100" value="100" step="1" class="SliderVertical" id="MasterVolumeSlider" onpointerdown="this.focus()">
                     <label id="MasterVolumeLabel">100%</label>
                 </div>
             </div>
@@ -104,5 +104,9 @@
             <!-- Mixer Tracks (Generated dynamically) -->
             <div class="TrackContainer"></div>
         </div> 
+
+        <!-- Reload Mixer -->
+        <button id="ReLoadButton" class="mixerButton hidden">Reload Mixer</button>  
+  
     </body> 
 </html>

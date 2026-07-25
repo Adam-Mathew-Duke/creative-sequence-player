@@ -70,11 +70,11 @@ export class TrackLoader {
                                 }
                             }
                             
-                            console.log("All 10 tracks successfully loaded and instantiated!", this);
+                            //console.log("All 10 tracks successfully loaded and instantiated!", this);
                         }
                     })
                     .catch(err => {
-                        console.log(`Error decoding audio file ${file.name}:`, err);
+                        //console.log(`Error decoding audio file ${file.name}:`, err);
                     });
             };
 
