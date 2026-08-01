@@ -226,6 +226,7 @@ input[type="range"].SliderVertical::-moz-range-thumb:hover {
 
 /* Load files box */
 .loadFiles{
+    color: transparent; /* Safari fix */
     -webkit-appearance: none;
     appearance: none;
     height: 40px;
@@ -247,9 +248,9 @@ input[type="range"].SliderVertical::-moz-range-thumb:hover {
     height: 40px;
     width: 150px;
     border-radius: 0%;
+    color: #6366f1;
     background: transparent;
     border: 2px solid #6366f1;
-    color: #6366f1;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -258,8 +259,8 @@ input[type="range"].SliderVertical::-moz-range-thumb:hover {
 /* Configure file selector button - hover state */
 .loadFiles::-webkit-file-upload-button:hover,
 .loadFiles::file-selector-button:hover {
-    background: #6366f1;
     color: #ffffff;
+    background: #6366f1;
     border: 2px solid white;
     transform: scale(1.05);
 }

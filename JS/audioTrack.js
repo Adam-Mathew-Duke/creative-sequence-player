@@ -18,6 +18,12 @@ export class AudioTrack {
         this.highPass = new BiquadFilterNode(this.ctx, { type: "highpass", frequency: 20, Q: 1 });
         this.lowNode = new BiquadFilterNode(this.ctx, { type: "lowpass", frequency: 20000, Q: 0.707 });
         this.pannerNode = new StereoPannerNode(this.ctx, { pan: 0.0 });
+        
+        // Force Safari/WebKit to respect stereo channels so it doesn't collapse to mono
+        this.pannerNode.channelCount = 2;
+        this.pannerNode.channelCountMode = "explicit";
+        this.pannerNode.channelInterpretation = "speakers";
+
         this.gainNode = new GainNode(this.ctx, { gain: 1.0 });
        
         // Mute State Flags
@@ -137,21 +143,21 @@ export class AudioTrack {
         }
     }
 
-// Track set audio pan
-setPan(panValue) {
-    const now = this.ctx.currentTime;
-    this.userSettings.PAN = panValue;
-    
-    if (this.pannerNode && this.pannerNode.pan) {
-        // Cancel any pending changes
-        this.pannerNode.pan.cancelScheduledValues(now);
+    // Track set audio pan
+    setPan(panValue) {
+        const now = this.ctx.currentTime;
+        this.userSettings.PAN = panValue;
         
-        // Direct value assignment works reliably across Safari/WebKit
-        this.pannerNode.pan.value = panValue;
+        if (this.pannerNode && this.pannerNode.pan) {
+            // Cancel any pending changes
+            this.pannerNode.pan.cancelScheduledValues(now);
+            
+            // Direct value assignment works reliably across Safari/WebKit
+            this.pannerNode.pan.value = panValue;
+        }
+        
+        return panValue; 
     }
-    
-    return panValue; 
-}
 
     // Track set audio low pass (Expects 0-100 slider value)
     setLowPass(val) {
