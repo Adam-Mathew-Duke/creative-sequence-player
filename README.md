@@ -1,5 +1,6 @@
-Audio mixer - Version 1 - Relese date 10/8/26.
+A creative sequence player designed to look pre-made audio steams.
 
-Will do minor updates as needed.
-
-Version 2 - Planned start date December 2026.
+Release schedule:
+Version 1 - 10/08/26.
+Will do minor updates as needed from time to time.
+Version 2 - Planned start date is December 2026.
