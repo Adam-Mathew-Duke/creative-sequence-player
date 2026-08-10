@@ -1,4 +1,4 @@
-A creative sequence player designed to look pre-made audio steams.
+A creative sequence player designed to look pre-made audio steams or pre-made audio loops.
 
 Release schedule:
 * Version 1 - 10/08/26.
