@@ -4,3 +4,6 @@ Release schedule:<br>
 * Version 1 - 10/08/26.
 * Will do minor updates as needed from time to time.
 * Version 2 - Planned start date is December 2026.
+
+Timeline:<br>
+* Development time to reach version 1 - approx 4 months.
